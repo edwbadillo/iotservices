@@ -1,0 +1,31 @@
+version: '3.9'
+services: 
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:12.0.4
+    restart: always
+    ports: 
+      - 8080:8080
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+
+  eurekaserver:
+    image: iot-eurekaservice
+    ports:
+      - 8761:8761
+
+  userservice:
+    image: iot-userservice
+    environment: 
+      IOT_FRONTEND_ORIGIN: http://keycloak:8080/auth
+      EUREKA_SERVER: http://eurekaserver:8761/eureka/
+      KEYCLOAK_SERVER: http://keycloak:8080/auth
+      KEYCLOAK_SECRET: b8056b12-04c2-499b-a853-bb38d5109936
+    ports: 
+      - 8082:8082
+    depends_on: 
+      keycloak:
+        condition: service_started
+      eurekaserver:
+        condition: service_started
