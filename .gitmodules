@@ -7,3 +7,6 @@
 [submodule "eureka-service"]
 	path = eureka-service
 	url = git@github.com:edwbadillo/iotservices-eureka.git
+[submodule "gateway-service"]
+	path = gateway-service
+	url = git@github.com:edwbadillo/iotservices-routing.git
